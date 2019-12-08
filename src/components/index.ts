@@ -1,2 +1,3 @@
-import WsCard from "./ws-card";
-export { WsCard };
+
+import WsUpdate from "./ws-update"
+export {  WsUpdate };

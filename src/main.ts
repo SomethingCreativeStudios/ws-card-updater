@@ -14,9 +14,3 @@ const ComponentLibrary = {
 };
 
 export default ComponentLibrary;
-
-// @ts-ignore
-if (typeof window !== "undefined" && window.Vue) {
-  // @ts-ignore
-  window.Vue.use(ComponentLibrary);
-}

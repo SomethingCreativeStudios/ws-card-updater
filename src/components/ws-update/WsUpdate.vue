@@ -1,15 +1,19 @@
 <template>
   <div>
-    I am a card!!
+    Something Else.
+    <button @click="testbutton">This might help</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
+import {test} from '../../services/parser'
 @Component
-export default class WsCard extends Vue {
+export default class WsUpdate extends Vue {
   @Prop() private msg!: string;
+  testbutton(){
+    test();
+  }
 }
 </script>
 
