@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib --name ws-card-updater src/main.ts",
     "watch": "vue-cli-service build --watch --target lib --name ws-card-updater src/main.ts",
     "lint": "vue-cli-service lint"
   },
