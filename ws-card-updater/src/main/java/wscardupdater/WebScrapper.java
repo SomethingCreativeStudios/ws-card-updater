@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.*;
 import java.io.IOException;
 
+
 public class WebScrapper {
 
     private static final String FullDeckListPath = Constants.HeartoftheCards + Constants.DeckLinksLocation;
@@ -17,10 +18,11 @@ public class WebScrapper {
             doc = Jsoup.connect(FullDeckListPath).get();
 
             ArrayList<Element> hrefList = doc.select("a[href]");
+           // System.out.println(hrefList);
             String filter = "<a href=\"/code/cardlist.html?pagetype=ws&amp;cardset=";
 
             deckListLinks = findProperLinks(hrefList, filter);
-            System.out.println(deckListLinks.size());
+            //System.out.println(deckListLinks.size());
 
         } catch (IOException e) {
             // Failure of connection to
@@ -44,31 +46,33 @@ public class WebScrapper {
             // if(list.get(i))
 
         }
-        System.out.println(hrefListFinal.size());
+        //System.out.println(hrefListFinal.size());
         return hrefListFinal;
     }
 
     public static ArrayList<Element> getListOfCards(Element deckLink) throws IOException {
         String link = deckLink.toString();
         String[] linkSplit = link.split("\"");
-        System.out.println(linkSplit[1]);
-
-        String finalLink = Constants.HeartoftheCards + linkSplit[1];
-        System.out.println(finalLink);
+        //System.out.println(linkSplit[1]);
+        String location = linkSplit[1];
+        //Removes the amp; that defaults the list back to the list of Decks
+        String[] locationFull = location.split("amp;");
+        location = locationFull[0]+locationFull[1];
+        String finalLink = Constants.HeartoftheCards + location ;
+        //System.out.println(finalLink);
 
         Document deckPage = Jsoup.connect(finalLink).get();
-        ArrayList<Element> hrefList = deckPage.select("a[href*=card]");
-        ArrayList<Element> cardTable = deckPage.getElementsByClass("cardlist");
-        // NEeds to be fixed can't find table with class=cardlist
-        System.out.println(hrefList);
-        System.exit(0);
-        String filter = "<a href=\"/code/cardlist.html?card=";
 
-        ArrayList<Element> cardListLinks = findProperLinks(cardTable, filter);
-        for (int i = 0; i < cardListLinks.size(); i++) {
-            System.out.println(cardListLinks.get(i));
+        ArrayList<Element> cardListLinks = deckPage.select("a[href*=/code/cardlist.html?card=]");
+        ArrayList<Element> finalCardList = new ArrayList();
+       // System.out.println(cardListLinks.size());
+        for (int i = 0; i < cardListLinks.size(); i= i+2) {
+            //System.out.println(cardListLinks.get(i));
+            //This line gets the second link that contains the name and adds it to the final list
+            finalCardList.add(cardListLinks.get(i+1)); 
         }
-        System.exit(0);
-        return cardListLinks;
+        //System.out.println(finalCardList.size());
+        //System.exit(0);
+        return finalCardList;
     }
 }
