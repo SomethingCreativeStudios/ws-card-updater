@@ -52,7 +52,7 @@ public class WebScrapper {
 
     public static ArrayList<Element> getListOfCards(Element deckLink) throws IOException {
         String link = deckLink.toString();
-        String[] linkSplit = link.split("\"");
+        String[] linkSplit = link.split("\""); //Splits link into 3 sections Middle is what we care about
         //System.out.println(linkSplit[1]);
         String location = linkSplit[1];
         //Removes the amp; that defaults the list back to the list of Decks
@@ -67,12 +67,32 @@ public class WebScrapper {
         ArrayList<Element> finalCardList = new ArrayList();
        // System.out.println(cardListLinks.size());
         for (int i = 0; i < cardListLinks.size(); i= i+2) {
-            //System.out.println(cardListLinks.get(i));
             //This line gets the second link that contains the name and adds it to the final list
             finalCardList.add(cardListLinks.get(i+1)); 
         }
         //System.out.println(finalCardList.size());
         //System.exit(0);
         return finalCardList;
+    }
+    
+    public static void getCardDetails(Element cardLink){
+        String link = cardLink.toString();
+        System.out.println(link);
+        String[] linkSplit = link.split("\"");
+        String location = linkSplit[1];
+        System.out.println(location);
+        String cardPage = Constants.HeartoftheCards + location;
+        System.out.println(cardPage);
+
+        // Get Titles for the Card
+        String[] Titles = linkSplit[2].split("<");
+        String engTitle = Titles[0];
+        engTitle = engTitle.substring(1); //Strips the ">" from the beginning
+        String jpTitle = Titles[1];
+        jpTitle = jpTitle.substring(3); //Strips the "br> From the Title"
+        
+        Card card = new Card(cardPage, engTitle, jpTitle);
+
+        System.exit(0);
     }
 }

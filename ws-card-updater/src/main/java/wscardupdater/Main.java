@@ -24,7 +24,9 @@ public class Main
         for(int i = 0; i < decks.size(); i++ ){
             
             ArrayList<Element> cardList = WebScrapper.getListOfCards(decks.get(i));
-            //System.out.println(deckPage);
+            for(int j = 0; j < cardList.size(); j++){
+                WebScrapper.getCardDetails(cardList.get(j));
+            }
             System.exit(0);
         }
     }
