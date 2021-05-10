@@ -76,6 +76,7 @@ public class WebScrapper {
     }
     
     public static void getCardDetails(Element cardLink){
+        // This section takes care of the 
         String link = cardLink.toString();
         System.out.println(link);
         String[] linkSplit = link.split("\"");
@@ -90,7 +91,7 @@ public class WebScrapper {
         engTitle = engTitle.substring(1); //Strips the ">" from the beginning
         String jpTitle = Titles[1];
         jpTitle = jpTitle.substring(3); //Strips the "br> From the Title"
-        
+        System.out.println(engTitle + " " + jpTitle);
         Card card = new Card(cardPage, engTitle, jpTitle);
 
         System.exit(0);

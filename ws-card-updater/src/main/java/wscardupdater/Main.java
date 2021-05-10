@@ -17,6 +17,9 @@ public class Main
     
     public static void main( String[] args ) throws IOException
     {
+        if(args.length != 0){
+            String folderLoc = args[0];
+        }
         
         //System.out.println( "Hello World!" );
         ArrayList<Element> decks = WebScrapper.getListOfDecks();
