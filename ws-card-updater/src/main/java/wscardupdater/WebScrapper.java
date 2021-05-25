@@ -75,7 +75,7 @@ public class WebScrapper {
         return finalCardList;
     }
     
-    public static void getCardDetails(Element cardLink){
+    public static void getCardDetails(Element cardLink) throws IOException{
         // This section takes care of the 
         String link = cardLink.toString();
         System.out.println(link);
@@ -85,6 +85,9 @@ public class WebScrapper {
         String cardPage = Constants.HeartoftheCards + location;
         System.out.println(cardPage);
 
+        Document cardp = Jsoup.connect(cardPage).get();
+        //Should grab the table with all the details else we may have to try grabbing individual sections
+        ArrayList<Element> cardDetails = cardp.select("table[width=95%]"); 
         // Get Titles for the Card
         String[] Titles = linkSplit[2].split("<");
         String engTitle = Titles[0];
