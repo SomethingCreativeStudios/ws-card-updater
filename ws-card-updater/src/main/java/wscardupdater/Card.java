@@ -8,8 +8,8 @@ public class Card {
     * This Class will handle all the code for creating a new card into
     * the JSON format with all the fields
     */
-    private static String NAMEeng;
-    private static String NAMEjp;
+    private static String ENGNAME;
+    private static String JPNNAME;
     private static String LINK;
     private static String PICTURELINK;
     private static String COLOR;
@@ -23,60 +23,63 @@ public class Card {
     private static int SOUL;
     private static int POWER;
     
-    private static String TRIGGERS; // This may be modified to a list and not strings
+    private static String[] TRIGGERS; // This may be modified to a list and not strings
 
-    private static String TRAITONEeng;
-    private static String TRAITTWOeng;
-    private static String TRAITONEjp;
-    private static String TRAITTWOjp;
+    private static String[] ENGTRAITS;
+    private static String[] JPNTRAITS;
+
     /*
     * The constructor takes 3 args 
     * 1: The Link to the card page
     * 2: The English Title of the Card
     * 3: The Japanese Title to the Card
     */
-    public Card(String l, String e, String j){
+    public Card(String link, String engName, String jpnName){
 
-        NAMEeng = e;
-        NAMEjp = j;
-        LINK = l;
+        ENGNAME = engName;
+        JPNNAME = jpnName;
+        LINK = link;
 
     }
     
-    public void setColor(String c){
-        COLOR = c;
+    public void setColor(String color){
+        COLOR = color;
     }
-    public void setCardNumber(String cn){
-        CARDNUMBER = cn;
+    public void setCardNumber(String cardNum){
+        CARDNUMBER = cardNum;
     }
-    public void setRarity(String r){
-        RARITY = r;
+    public void setRarity(String rarity){
+        RARITY = rarity;
     }
-    public void setType(String t){
-        TYPE = t;
+    public void setType(String type){
+        TYPE = type;
     }
-    public void setSide(String s){
-        SIDE = s;
+    public void setSide(String side){
+        SIDE = side;
     }
-    public void setLevel(int l){
-        LEVEL = l;
+    public void setLevel(int level){
+        LEVEL = level;
     }
-    public void setCost(int c){
-        COST = c;
+    public void setCost(int cost){
+        COST = cost;
     }
-    public void setSoul(int s){
-        SOUL = s;
+    public void setSoul(int soul){
+        SOUL = soul;
     }
-    public void setPower(int p){
-        POWER = p;
+    public void setPower(int power){
+        POWER = power;
     }
-    public void setPictureLink(String pl){
-        PICTURELINK = pl;
+    public void setPictureLink(String picLink){
+        PICTURELINK = picLink;
     }
-    public void setTraits(String TOne, String TTwo){
+    public void setTraits(String[] engTraits, String[] jpnTraits){
+        ENGTRAITS = engTraits;
+        JPNTRAITS = jpnTraits;
+    }
+    public void setTriggers(String[] triggers){
+        TRIGGERS = triggers;
+    }
+    public void PrintCardDetails(){
         
-    }
-    public void setTriggers(){
-
     }
 }
