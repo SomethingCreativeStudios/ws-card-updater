@@ -18,7 +18,12 @@ public class Main
     public static void main( String[] args ) throws IOException
     {
         if(args.length != 0){
-            String folderLoc = args[0];
+            String folderLocation =args[0];
+            if(!folderLocation.endsWith("/")){
+                folderLocation = folderLocation + "/";
+            }
+            Settings.folderLocation = args[0];
+
         }
         
         //System.out.println( "Hello World!" );

@@ -12,6 +12,7 @@ public class Card {
     private static String JPNNAME;
     private static String LINK;
     private static String PICTURELINK;
+    private static String SETNAME;
     private static String COLOR;
     private static String CARDNUMBER;
     private static String RARITY;
@@ -48,8 +49,17 @@ public class Card {
     public void setCardNumber(String cardNum){
         CARDNUMBER = cardNum;
     }
+    public String getCardNumber(){
+        return CARDNUMBER;
+    }
     public void setRarity(String rarity){
         RARITY = rarity;
+    }
+    public void setSetName(String setName){
+        SETNAME = setName;
+    }
+    public String getSetName(){
+        return SETNAME;
     }
     public void setType(String type){
         TYPE = type;
@@ -80,6 +90,6 @@ public class Card {
         TRIGGERS = triggers;
     }
     public void PrintCardDetails(){
-        
+        // Note For Card placement in folder will be set by the SetName and the card number will be the backend String
     }
 }

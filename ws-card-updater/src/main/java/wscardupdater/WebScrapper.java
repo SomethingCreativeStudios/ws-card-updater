@@ -1,10 +1,17 @@
 package wscardupdater;
 
+import java.awt.*;
+import javax.imageio.*;
+import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.*;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class WebScrapper {
@@ -96,7 +103,27 @@ public class WebScrapper {
         jpTitle = jpTitle.substring(3); //Strips the "br> From the Title"
         System.out.println(engTitle + " " + jpTitle);
         Card card = new Card(cardPage, engTitle, jpTitle);
+        
+        // Start getting other card details from the Table
+        //Need to get Card Number and Set Name for Image
+        // Get the Image and Save it to the folder path
+        
+        //Image Name will be the Card number
+
+
 
         System.exit(0);
+    }
+    public void getCardImage(Card card) throws MalformedURLException{
+        Image image = null;
+        URL imageURL = new URL(Constants.ImageLocation + card.getSetName() + card.getCardNumber() + ".gif");
+        try {
+            image = ImageIO.read(imageURL);
+            File output = new File(Settings.folderLocation + card.getSetName() + card.getCardNumber() + ".png" )
+        } catch (IOException e) {
+            System.out.println("Failed to load image from " + imageURL.toString());
+            e.printStackTrace();
+        }
+        
     }
 }
