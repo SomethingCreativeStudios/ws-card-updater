@@ -17,12 +17,13 @@ public class Main
     
     public static void main( String[] args ) throws IOException
     {
+        String folderLocation = "E:/Card-Game/WSCards";  //temp directory for now 
         if(args.length != 0){
-            String folderLocation =args[0];
+            folderLocation = args[0];
             if(!folderLocation.endsWith("/")){
                 folderLocation = folderLocation + "/";
             }
-            Settings.folderLocation = args[0];
+            Settings.folderLocation = folderLocation;
 
         }
         

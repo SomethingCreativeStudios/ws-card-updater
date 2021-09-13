@@ -85,12 +85,12 @@ public class WebScrapper {
     public static void getCardDetails(Element cardLink) throws IOException{
         // This section takes care of the 
         String link = cardLink.toString();
-        System.out.println(link);
+        //System.out.println(link);
         String[] linkSplit = link.split("\"");
         String location = linkSplit[1];
-        System.out.println(location);
+        //System.out.println(location);
         String cardPage = Constants.HeartoftheCards + location;
-        System.out.println(cardPage);
+        //System.out.println(cardPage);
 
         Document cardp = Jsoup.connect(cardPage).get();
         //Should grab the table with all the details else we may have to try grabbing individual sections
@@ -101,11 +101,24 @@ public class WebScrapper {
         engTitle = engTitle.substring(1); //Strips the ">" from the beginning
         String jpTitle = Titles[1];
         jpTitle = jpTitle.substring(3); //Strips the "br> From the Title"
-        System.out.println(engTitle + " " + jpTitle);
+        //System.out.println(engTitle + " " + jpTitle);
         Card card = new Card(cardPage, engTitle, jpTitle);
         
+        String[] fullCardDeets = cardDetails.toString().split("<tr>");
+        // Reference webpageOfCard.txt for info of cardDetails example
+        
+        //Card Number @ ln 22
+        String[] rareCardNum = getCardNumberAndRarity(fullCardDeets);
+        card.setCardNumber(rareCardNum[0]);
+        card.setRarity(rareCardNum[1]);
+        // Rarity @ ln 24
+
+        // Color @ ln 28
+
+
+        System.out.print(fullCardDeets.length);
         // Start getting other card details from the Table
-        //Need to get Card Number and Set Name for Image
+        // Need to get Card Number and Set Name for Image
         // Get the Image and Save it to the folder path
         
         //Image Name will be the Card number
@@ -114,16 +127,47 @@ public class WebScrapper {
 
         System.exit(0);
     }
-    public void getCardImage(Card card) throws MalformedURLException{
+    public static void getCardImage(Card card) throws MalformedURLException{
         Image image = null;
-        URL imageURL = new URL(Constants.ImageLocation + card.getSetName() + card.getCardNumber() + ".gif");
+        String imgLoc = Constants.ImageLocation + card.getSetName() + card.getCardNumber() + ".gif";
+        URL imageURL = new URL(imgLoc.toLowerCase());
         try {
             image = ImageIO.read(imageURL);
-            File output = new File(Settings.folderLocation + card.getSetName() + card.getCardNumber() + ".png" )
+            File output = new File(Settings.folderLocation + card.getSetName() + card.getCardNumber() + ".png" );
         } catch (IOException e) {
             System.out.println("Failed to load image from " + imageURL.toString());
             e.printStackTrace();
         }
         
+    }
+    /*
+    * This Function gets the Card Number and Rarity from the
+    * String Array that contains the table with all the card details
+    * this function returns both the Card Number and Rarity in a String Array
+    * With Card number being First and Rarity being second
+    */
+    public static String[] getCardNumberAndRarity(String[] cardDeets){
+        String val = null;
+        for(int i = 0; i < cardDeets.length; i++){
+            if(cardDeets[i].contains("Card No.")){
+                val = cardDeets[i];
+                break;
+            }
+        }
+        if(val == null){
+            System.err.println(" Card Number not Found");
+            System.exit(3);
+        }
+        String[] split = val.split("</td>");
+        String CardNum = split[1];
+        String Rarity = split[3];
+        CardNum = CardNum.split(">")[1];
+        Rarity = Rarity.split(">")[1];
+        System.out.println(CardNum + " " + Rarity);
+        String[] retVals = new String[2]; 
+        retVals[0] = CardNum;
+        retVals[1] = Rarity;
+        return retVals;
+
     }
 }
