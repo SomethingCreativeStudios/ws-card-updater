@@ -109,14 +109,18 @@ public class WebScrapper {
         
         //Card Number @ ln 22
         String[] rareCardNum = getCardNumberAndRarity(fullCardDeets);
-        card.setCardNumber(rareCardNum[0]);
+        String[] cardSetandNum = rareCardNum[0].split("-");
+        card.setSetName(cardSetandNum[0]);
+        card.setCardNumber(cardSetandNum[1]);
         card.setRarity(rareCardNum[1]);
+        System.out.println(card.getCardNumber() + " " + card.getSetName());
         // Rarity @ ln 24
 
         // Color @ ln 28
 
 
         System.out.print(fullCardDeets.length);
+        
         // Start getting other card details from the Table
         // Need to get Card Number and Set Name for Image
         // Get the Image and Save it to the folder path
@@ -129,7 +133,7 @@ public class WebScrapper {
     }
     public static void getCardImage(Card card) throws MalformedURLException{
         Image image = null;
-        String imgLoc = Constants.ImageLocation + card.getSetName() + card.getCardNumber() + ".gif";
+        String imgLoc = Constants.ImageLocation + card.getSetName() + "-" + card.getCardNumber() + ".gif";
         URL imageURL = new URL(imgLoc.toLowerCase());
         try {
             image = ImageIO.read(imageURL);
@@ -163,7 +167,7 @@ public class WebScrapper {
         String Rarity = split[3];
         CardNum = CardNum.split(">")[1];
         Rarity = Rarity.split(">")[1];
-        System.out.println(CardNum + " " + Rarity);
+        //System.out.println(CardNum + " " + Rarity);
         String[] retVals = new String[2]; 
         retVals[0] = CardNum;
         retVals[1] = Rarity;
