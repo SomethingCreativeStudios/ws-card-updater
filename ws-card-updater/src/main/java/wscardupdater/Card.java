@@ -29,6 +29,12 @@ public class Card {
     private static String[] ENGTRAITS;
     private static String[] JPNTRAITS;
 
+    private static String JPCARDTEXT;
+    private static String ENGCARDTEXT;
+
+    private static String JPFLAVORTEXT;
+    private static String ENGFLAVORTEXT;
+
     /*
     * The constructor takes 3 args 
     * 1: The Link to the card page
@@ -88,6 +94,18 @@ public class Card {
     }
     public void setTriggers(String[] triggers){
         TRIGGERS = triggers;
+    }
+    public void setJPCardText(String jpText){
+        JPCARDTEXT = jpText;
+    }
+    public void setENGCardText(String engText){
+        ENGCARDTEXT = engText;
+    }
+    public void setJPFlavorText(String jpText){
+        JPFLAVORTEXT = jpText;
+    }
+    public void setEngFlavorText(String engText){
+        ENGFLAVORTEXT = engText;
     }
     public void PrintCardDetails(){
         // Note For Card placement in folder will be set by the SetName and the card number will be the backend String
