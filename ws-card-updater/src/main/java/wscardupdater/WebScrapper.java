@@ -98,28 +98,45 @@ public class WebScrapper {
         // Get Titles for the Card
         String[] Titles = linkSplit[2].split("<");
         String engTitle = Titles[0];
-        engTitle = engTitle.substring(1); //Strips the ">" from the beginning
+        engTitle = engTitle.substring(1).trim(); //Strips the ">" from the beginning
         String jpTitle = Titles[1];
-        jpTitle = jpTitle.substring(3); //Strips the "br> From the Title"
+        jpTitle = jpTitle.substring(3).trim(); //Strips the "br> From the Title"
         //System.out.println(engTitle + " " + jpTitle);
         Card card = new Card(cardPage, engTitle, jpTitle);
         
         String[] fullCardDeets = cardDetails.toString().split("<tr>");
         // Reference webpageOfCard.txt for info of cardDetails example
         
-        //Card Number @ ln 22
+
         String[] rareCardNum = getCardNumberAndRarity(fullCardDeets);
         String[] cardSetandNum = rareCardNum[0].split("-");
-        card.setSetName(cardSetandNum[0]);
-        card.setCardNumber(cardSetandNum[1]);
-        card.setRarity(rareCardNum[1]);
+        card.setSetName(cardSetandNum[0].trim());
+        card.setCardNumber(cardSetandNum[1].trim());
+        card.setRarity(rareCardNum[1].trim());
+        
+        
         System.out.println(card.getCardNumber() + " " + card.getSetName());
-        // Rarity @ ln 24
-
+        
         // Color @ ln 28
 
+        String[] cardColorSide = getCardColorAndSideStrings(fullCardDeets);
+        card.setColor(cardColorSide[0].trim());
+        card.setSide(cardColorSide[1].trim());
 
-        System.out.print(fullCardDeets.length);
+        String[] cardTypeLevel = getCardTypeAndLevelStrings(fullCardDeets);
+        card.setType(cardTypeLevel[0].trim());
+        int valLevel = Integer.parseInt(cardTypeLevel[1].trim());//Converts String to Int
+        card.setLevel(valLevel);
+
+        String[] cardPowerCost = getCardPowerAndCostStrings(fullCardDeets);
+        card.setPower(Integer.parseInt(cardPowerCost[0].trim()));
+        card.setCost(Integer.parseInt(cardPowerCost[1].trim()));
+
+        //TODO: Soul and Trait 1
+        //TODO: Triggers Trait 2
+        
+        card.PrintCardDetails();
+        System.out.print(cardDetails);
         
         // Start getting other card details from the Table
         // Need to get Card Number and Set Name for Image
@@ -171,6 +188,98 @@ public class WebScrapper {
         String[] retVals = new String[2]; 
         retVals[0] = CardNum;
         retVals[1] = Rarity;
+        return retVals;
+
+    }
+    /*
+    * This Function gets the Card Color and Side from the
+    * String Array that contains the table with all the card details
+    * this function returns both the Card Color and Side in a String Array
+    * With Card Color being First and Side being second
+    *
+    * Note: Side in this case refers to it Being Weiss or Schwarz
+    */
+    public static String[] getCardColorAndSideStrings(String[] cardDeets){
+        String val = null;
+        for(int i = 0; i < cardDeets.length; i++){
+            if(cardDeets[i].contains("Color:")){
+                val = cardDeets[i];
+                break;
+            }
+        }
+        if(val == null){
+            System.err.println(" Card Color not Found");
+            System.exit(3);
+        }
+        String[] split = val.split("</td>");
+        String CardColor = split[1];
+        String Side = split[3];
+        CardColor = CardColor.split(">")[1];
+        Side = Side.split(">")[1];
+        //System.out.println(CardNum + " " + Rarity);
+        String[] retVals = new String[2]; 
+        retVals[0] = CardColor;
+        retVals[1] = Side;
+        return retVals;
+
+    }
+     /*
+    * This Function gets the Card Type and Level from the
+    * String Array that contains the table with all the card details
+    * this function returns both the Card Typer and Level in a String Array
+    * With Card Type being First and Level being second
+    */
+    public static String[] getCardTypeAndLevelStrings(String[] cardDeets){
+        String val = null;
+        for(int i = 0; i < cardDeets.length; i++){
+            if(cardDeets[i].contains("Type:")){
+                val = cardDeets[i];
+                break;
+            }
+        }
+        if(val == null){
+            System.err.println(" Card Type not Found");
+            System.exit(3);
+        }
+        String[] split = val.split("</td>");
+        String CardType = split[1];
+        String Level = split[3];
+        CardType = CardType.split(">")[1];
+        Level = Level.split(">")[1];
+        //System.out.println(CardNum + " " + Rarity);
+        String[] retVals = new String[2]; 
+        retVals[0] = CardType;
+        retVals[1] = Level;
+        return retVals;
+
+    }
+     /*
+    * This Function gets the Card Power and Cost from the
+    * String Array that contains the table with all the card details
+    * this function returns both the Card Power and Cost in a String Array
+    * With Card Power being First and Cost being second
+    */
+    public static String[] getCardPowerAndCostStrings(String[] cardDeets){
+        String val = null;
+        for(int i = 0; i < cardDeets.length; i++){
+            if(cardDeets[i].contains("Power:")){
+                val = cardDeets[i];
+                break;
+            }
+        }
+        if(val == null){
+            System.err.println(" Card Power not Found");
+            System.exit(3);
+        }
+        String[] split = val.split("</td>");
+        String CardPower = split[1];
+        String Cost = split[3];
+        CardPower = CardPower.split(">")[1];
+        Cost = Cost.split(">")[1];
+        //System.out.println(CardNum + " " + Rarity);
+        String[] retVals = new String[2]; 
+        retVals[0] = CardPower;
+        retVals[1] = Cost;
         return retVals;
 
     }
