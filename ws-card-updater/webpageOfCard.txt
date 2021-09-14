@@ -80,8 +80,11 @@
       </tr>
       <tr>
        <td class="cards"><b>English Flavor Text</b></td>
+      </tr>
+      <tr>
        <td class="cards3">I decided when I entered that door&nbsp;</td>
       </tr>
+      <tr>
        <td class="cards3" align="right"><a href="/code/cardlist.html?card=WS_AW/S18-101&amp;short=1" target="_blank"><b>Reference Card &gt;</b></a></td>
       </tr>
      </tbody>
