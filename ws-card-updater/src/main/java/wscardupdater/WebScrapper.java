@@ -132,11 +132,47 @@ public class WebScrapper {
         card.setPower(Integer.parseInt(cardPowerCost[0].trim()));
         card.setCost(Integer.parseInt(cardPowerCost[1].trim()));
 
-        //TODO: Soul and Trait 1
-        //TODO: Triggers Trait 2
+        //Done: Soul and Trait 1
+        String[] cardSoulTraitOne = getCardSoulAndFirstTraitStrings(fullCardDeets);
+        card.setSoul(Integer.parseInt(cardSoulTraitOne[0].trim()));
         
+        String[] jpnVSEng = cardSoulTraitOne[1].split(" "); 
+        String engTraitFinal = jpnVSEng[1].split("\\)")[0].split("\\(")[1];
+        //System.out.println(engTraitFinal);
+        String[] jpnTraits = new String[2]; 
+        String[] engTraits = new String[2];
+        jpnTraits[0] = jpnVSEng[0];
+        engTraits[0] = engTraitFinal;
+        
+        //Done: Triggers Trait 2
+        
+        String[] cardTriggersTraitTwo = getCardTriggersAndSecondTraitStrings(fullCardDeets);
+        String[] triggers = cardTriggersTraitTwo[0].split(" ");
+        for(int i = 0; i < triggers.length; i++){
+            triggers[i] = triggers[i].trim();
+        }
+        if(triggers.length > 1){
+            try {
+                //System.out.println("in try");
+                int test = Integer.parseInt(triggers[0]);
+                //System.out.println("after int parse");
+                triggers[0] = triggers[1];
+            }catch (NumberFormatException e){
+                System.out.println("in catch");
+            }
+        }
+        card.setTriggers(triggers);
+        
+        String[] jpnVSEng2 = cardTriggersTraitTwo[1].split(" "); 
+        String engTraitFinal2 = jpnVSEng2[1].split("\\)")[0].split("\\(")[1];
+        System.out.println(engTraitFinal2 + " " + jpnVSEng2[0]);
+        jpnTraits[1] = jpnVSEng2[0];
+        engTraits[1] = engTraitFinal2;
+        
+        card.setTraits(engTraits, jpnTraits);
+
         card.PrintCardDetails();
-        System.out.print(cardDetails);
+        //System.out.print(cardDetails);
         
         // Start getting other card details from the Table
         // Need to get Card Number and Set Name for Image
@@ -280,6 +316,60 @@ public class WebScrapper {
         String[] retVals = new String[2]; 
         retVals[0] = CardPower;
         retVals[1] = Cost;
+        return retVals;
+
+    }
+    /*
+    * This Function gets the Card Soul and it's first assigned Trait from the
+    * String Array that contains the table with all the card details
+    * this function returns both the Card Soul and it's first assigned Trait in a String Array
+    * With Card Soul being First and it's first assigned Trait being second
+    */
+    public static String[] getCardSoulAndFirstTraitStrings(String[] cardDeets){
+        String val = null;
+        for(int i = 0; i < cardDeets.length; i++){
+            if(cardDeets[i].contains("Soul:")){
+                val = cardDeets[i];
+                break;
+            }
+        }
+        if(val == null){
+            System.err.println(" Card Power not Found");
+            System.exit(3);
+        }
+        String[] split = val.split("</td>");
+        String CardSoul = split[1];
+        String Trait = split[3];
+        CardSoul = CardSoul.split(">")[1];
+        Trait = Trait.split(">")[1];
+        //System.out.println(CardNum + " " + Rarity);
+        String[] retVals = new String[2]; 
+        retVals[0] = CardSoul;
+        retVals[1] = Trait;
+        return retVals;
+
+    }
+    public static String[] getCardTriggersAndSecondTraitStrings(String[] cardDeets){
+        String val = null;
+        for(int i = 0; i < cardDeets.length; i++){
+            if(cardDeets[i].contains("Triggers:")){
+                val = cardDeets[i];
+                break;
+            }
+        }
+        if(val == null){
+            System.err.println(" Card Power not Found");
+            System.exit(3);
+        }
+        String[] split = val.split("</td>");
+        String CardTriggers = split[1];
+        String Trait2 = split[3];
+        CardTriggers = CardTriggers.split(">")[1];
+        Trait2 = Trait2.split(">")[1];
+        //System.out.println(CardNum + " " + Rarity);
+        String[] retVals = new String[2]; 
+        retVals[0] = CardTriggers;
+        retVals[1] = Trait2;
         return retVals;
 
     }
