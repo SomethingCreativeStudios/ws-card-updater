@@ -1,6 +1,11 @@
 package wscardupdater;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.Writer;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 public class Card {
     
@@ -109,5 +114,22 @@ public class Card {
     }
     public void PrintCardDetails(){
         // Note For Card placement in folder will be set by the SetName and the card number will be the backend String
+        File output = new File(Settings.folderLocation + SETNAME.replace("/", "-") + "-" + getCardNumber() + ".json");
+        JSONObject card = new JSONObject();
+        
+        //Set up Name Array for Card
+        JSONObject nameEng = new JSONObject();
+        JSONObject nameJpn = new JSONObject();
+        JSONArray names = new JSONArray();
+        nameEng.put("en", ENGNAME);
+        nameJpn.put("jp", JPNNAME);
+        names.add(nameEng);
+        names.add(nameJpn);
+
+
+        card.put("name", names);
+        card.put("color", COLOR);
+        card.put("rarity", RARITY);
+        card.put("cardNo", SETNAME + "-" + CARDNUMBER);
     }
 }
