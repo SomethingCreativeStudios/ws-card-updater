@@ -17,16 +17,16 @@ public class Main
     
     public static void main( String[] args ) throws IOException
     {
-        String folderLocation = "E:/Card-Game/WSCards";  //temp directory for now 
+        String folderLocation = "E:/Card-Game/WSCards/";  //temp directory for now 
         if(args.length != 0){
             folderLocation = args[0];
             if(!folderLocation.endsWith("/")){
                 folderLocation = folderLocation + "/";
             }
-            Settings.folderLocation = folderLocation;
+            
 
         }
-        
+        Settings.folderLocation = folderLocation;
         //System.out.println( "Hello World!" );
         ArrayList<Element> decks = WebScrapper.getListOfDecks();
         
