@@ -2,6 +2,8 @@ package wscardupdater;
 
 //import java.util.ArrayList;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.Writer;
 import org.json.simple.JSONObject;
@@ -16,7 +18,6 @@ public class Card {
     private static String ENGNAME;
     private static String JPNNAME;
     private static String LINK;
-    private static String PICTURELINK;
     private static String SETNAME;
     private static String COLOR;
     private static String CARDNUMBER;
@@ -90,9 +91,6 @@ public class Card {
     public void setPower(int power){
         POWER = power;
     }
-    public void setPictureLink(String picLink){
-        PICTURELINK = picLink;
-    }
     public void setTraits(String[] engTraits, String[] jpnTraits){
         ENGTRAITS = engTraits;
         JPNTRAITS = jpnTraits;
@@ -130,6 +128,68 @@ public class Card {
         card.put("name", names);
         card.put("color", COLOR);
         card.put("rarity", RARITY);
-        card.put("cardNo", SETNAME + "-" + CARDNUMBER);
+        card.put("cardNo", SETNAME.replace("/", "-") + "-" + CARDNUMBER);
+        card.put("set", SETNAME.replace("/", "-"));
+        card.put("side", SIDE);
+        card.put("type", TYPE);
+        card.put("level", LEVEL);
+        card.put("cost", COST);
+        card.put("power", POWER);
+        card.put("soul", SOUL);
+
+        JSONArray enTraits = new JSONArray();
+        JSONArray jpTraits = new JSONArray();
+        JSONArray traits = new JSONArray();
+        enTraits.add(ENGTRAITS[0]);
+        enTraits.add(ENGTRAITS[1]);
+        jpTraits.add(JPNTRAITS[0]);
+        jpTraits.add(JPNTRAITS[1]);
+        JSONObject enTrait = new JSONObject();
+        JSONObject jpTrait = new JSONObject();
+        enTrait.put("en", enTraits);
+        jpTrait.put("jp", jpTraits);
+        traits.add(enTrait);
+        traits.add(jpTrait);
+        card.put("trait", traits);
+        
+        JSONArray triggers = new JSONArray();
+        for(int i = 0; i < TRIGGERS.length; i++){
+            triggers.add(TRIGGERS[i]);
+        }  
+        card.put("triggers", triggers);
+
+        // Link to the Card's Page on Heart of the Cards
+        card.put("cardLink", LINK);
+        // Link to the Card's Image on Heart of the Cards
+        //card.put("cardPicLink", PICTURELINK);
+
+        JSONObject enFlavor = new JSONObject();
+        JSONObject jpFlavor = new JSONObject();
+        enFlavor.put("en", ENGFLAVORTEXT);
+        jpFlavor.put("jp", JPFLAVORTEXT);
+        JSONArray flavor = new JSONArray();
+        flavor.add(enFlavor);
+        flavor.add(jpFlavor);
+        card.put("flavor", flavor);
+
+        JSONObject enText = new JSONObject();
+        JSONObject jpText = new JSONObject();
+        enText.put("en", ENGCARDTEXT);
+        jpText.put("jp", JPCARDTEXT);
+        JSONArray text = new JSONArray();
+        text.add(enText);
+        text.add(jpText);
+        card.put("text", text);
+
+        try {
+            FileWriter myWriter = new FileWriter(output);
+            myWriter.write(card.toString());
+            myWriter.flush();
+            myWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            System.err.println("Failed to write to file for " + ENGNAME);
+            e.printStackTrace();
+        }
     }
 }

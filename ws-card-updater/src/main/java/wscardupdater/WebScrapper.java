@@ -182,7 +182,7 @@ public class WebScrapper {
         card.setEngFlavorText(cardText[3]);
 
         getCardImage(card);
-        System.exit(0);
+        //System.exit(0);
         card.PrintCardDetails();
         //System.out.print(cardDetails);
         
